@@ -2,3 +2,5 @@
 Library
 Temp
 GemEngine.*
+*.csproj
+*.sln
