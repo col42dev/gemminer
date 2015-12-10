@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System.Collections.Generic;
 using System.Collections;
@@ -57,6 +58,8 @@ public class StateTransaction : MonoBehaviour, IStateTransactionMessageTarget
         {
             Debug.Log("WWW Ok!: ");
             Debug.Log(www.text);
+
+            GameObject.Find("TransactionResponse").GetComponent<Text>().text = www.text.Replace("<br/>", "\n");
         } else {
             Debug.Log("WWW Error: "+ www.error);
         }    
