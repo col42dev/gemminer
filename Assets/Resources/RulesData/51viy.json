@@ -1,0 +1,32 @@
+{
+  "title": "sample",
+  "version": "0.0.43",
+  "lastEditDate": "Thu Dec 03 2015 10:04:26 GMT-0800 (PST)",
+  "data": {
+    "gold": {
+      "quantity": 100
+    },
+    "resources" : {
+      "stone": {
+        "quantity": 5,
+        "cost":  10
+      },
+      "lumber": {
+        "quantity": 5,
+        "cost":  10
+      },
+      "coal": {
+        "quantity": 5,
+        "cost":  10
+      },
+      "oil": {
+        "quantity": 5,
+        "cost":  10
+      },
+      "crystal": {
+        "quantity": 5,
+        "cost":  50
+      }
+    }
+  }
+}
