@@ -32,7 +32,7 @@ public class StateTransaction : MonoBehaviour, IStateTransactionMessageTarget
         // 
         Debug.Log("Transmiting State");
 
-        string url = "http://localhost:3000/";
+        string url = "http://localhost:3000/transactions/";
         WWWForm form = new WWWForm();
 
         string messageBody = "";
@@ -41,6 +41,8 @@ public class StateTransaction : MonoBehaviour, IStateTransactionMessageTarget
             messageBody += transactionMessage + '\n';
         }
         form.AddField("message", messageBody);
+
+        mTransactions.Clear();
 
         WWW www = new WWW(url, form);
         StartCoroutine(WaitForRequest(www));
@@ -53,7 +55,8 @@ public class StateTransaction : MonoBehaviour, IStateTransactionMessageTarget
         // check for errors
         if (www.error == null)
         {
-            Debug.Log("WWW Ok!: " + www.text);
+            Debug.Log("WWW Ok!: ");
+            Debug.Log(www.text);
         } else {
             Debug.Log("WWW Error: "+ www.error);
         }    

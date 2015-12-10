@@ -47,7 +47,6 @@ public class StateUI : MonoBehaviour
 
     public void HandleBuyRequest(Text textUI)
     {
-        Debug.Log(textUI.text);
         Match match = Regex.Match(textUI.text, @"(\S*), .*");
         if (match.Success)
         {
@@ -68,7 +67,6 @@ public class StateUI : MonoBehaviour
 
     public  void HandleSellRequest(Text textUI)
     {
-        Debug.Log(textUI.text);
         Match match = Regex.Match(textUI.text, @"(\S*), .*");
         if (match.Success)
         {
@@ -85,6 +83,20 @@ public class StateUI : MonoBehaviour
             string transactionMessage = "sell 1 " + resourceName;
             ExecuteEvents.Execute<IStateTransactionMessageTarget>(GameObject.Find("StateTransaction"), null, (x, y) => x.TransactionMessage(transactionMessage));
         }
+    }
+
+    public  void HandleCheatQuantity(Text textUI)
+    {
+        Match match = Regex.Match(textUI.text, @"(\S*), .*");
+        if (match.Success)
+        {
+            string resourceName = match.Groups[1].Value.ToString();
+            JSONNode resourceNode = SampleState.Instance.mState["resources"][resourceName];
+
+            int newQuantity = resourceNode["quantity"].AsInt + 1;
+            resourceNode["quantity"] = new JSONData(newQuantity);
+            textUI.text = resourceName + ", Quantity: " + (string)resourceNode["quantity"] + ", Cost: " + (string)resourceNode["cost"] + "\n";
+         }
     }
 
 
