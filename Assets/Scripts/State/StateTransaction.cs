@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System.Collections.Generic;
 using System.Collections;
+using System.Text;
 
 
 public interface IStateTransactionMessageTarget : IEventSystemHandler
@@ -33,7 +34,8 @@ public class StateTransaction : MonoBehaviour, IStateTransactionMessageTarget
         // 
         Debug.Log("Transmiting State");
 
-        string url = "http://localhost:3000/transactions/";
+        //string url = "http://localhost:3000/transactions/";
+		string url = "http://localhost:8080/";
         WWWForm form = new WWWForm();
 
         string messageBody = "";
@@ -45,7 +47,12 @@ public class StateTransaction : MonoBehaviour, IStateTransactionMessageTarget
 
         mTransactions.Clear();
 
-        WWW www = new WWW(url, form);
+        //Hashtable headers = new Hashtable();
+        //headers.Add("Content-Type", "application/text");
+        byte[] bytes = Encoding.ASCII.GetBytes(messageBody.ToCharArray());//new byte[messageBody.Length * sizeof(char)];
+
+        //System.Buffer.BlockCopy(messageBody.ToCharArray(), 0, bytes, 0, bytes.Length);
+        WWW www = new WWW(url, bytes);
         StartCoroutine(WaitForRequest(www));
     }
 

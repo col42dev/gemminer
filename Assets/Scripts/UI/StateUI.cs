@@ -55,13 +55,15 @@ public class StateUI : MonoBehaviour
             
             JSONClass gold = SampleState.Instance.mState["gold"] as JSONClass;
             int newGoldQuantity = gold["quantity"].AsInt - resourceNode["cost"].AsInt;
-            gold["quantity"] = new JSONData(newGoldQuantity);
-    
-            int newQuantity = resourceNode["quantity"].AsInt + 1;
-            resourceNode["quantity"] = new JSONData(newQuantity);
-            textUI.text = resourceName + ", Quantity: " + (string)resourceNode["quantity"] + ", Cost: " + (string)resourceNode["cost"] + "\n";
-            string transactionMessage = "buy 1 " + resourceName;
-            ExecuteEvents.Execute<IStateTransactionMessageTarget>(GameObject.Find("StateTransaction"), null, (x, y) => x.TransactionMessage(transactionMessage));
+            if (newGoldQuantity >= 0) {
+                gold["quantity"] = new JSONData(newGoldQuantity);
+        
+                int newQuantity = resourceNode["quantity"].AsInt + 1;
+                resourceNode["quantity"] = new JSONData(newQuantity);
+                textUI.text = resourceName + ", Quantity: " + (string)resourceNode["quantity"] + ", Cost: " + (string)resourceNode["cost"] + "\n";
+                string transactionMessage = "buy 1 " + resourceName;
+                ExecuteEvents.Execute<IStateTransactionMessageTarget>(GameObject.Find("StateTransaction"), null, (x, y) => x.TransactionMessage(transactionMessage));
+            }
         }
     }
 
@@ -73,15 +75,20 @@ public class StateUI : MonoBehaviour
             string resourceName = match.Groups[1].Value.ToString();
             JSONNode resourceNode = SampleState.Instance.mState["resources"][resourceName];
 
-            JSONClass gold = SampleState.Instance.mState["gold"] as JSONClass;
-            int newGoldQuantity = gold["quantity"].AsInt + resourceNode["cost"].AsInt;
-            gold["quantity"] = new JSONData(newGoldQuantity);
+ 
+            int newResourceQuantity = resourceNode["quantity"].AsInt - 1;
 
-            int newQuantity = resourceNode["quantity"].AsInt - 1;
-            resourceNode["quantity"] = new JSONData(newQuantity);
-            textUI.text = resourceName + ", Quantity: " + (string)resourceNode["quantity"] + ", Cost: " + (string)resourceNode["cost"] + "\n";
-            string transactionMessage = "sell 1 " + resourceName;
-            ExecuteEvents.Execute<IStateTransactionMessageTarget>(GameObject.Find("StateTransaction"), null, (x, y) => x.TransactionMessage(transactionMessage));
+            if (newResourceQuantity >= 0) {
+                JSONClass gold = SampleState.Instance.mState["gold"] as JSONClass;
+                int newGoldQuantity = gold["quantity"].AsInt + resourceNode["cost"].AsInt;
+
+                gold["quantity"] = new JSONData( newGoldQuantity);
+                resourceNode["quantity"] = new JSONData( newResourceQuantity);
+                textUI.text = resourceName + ", Quantity: " + (string)resourceNode["quantity"] + ", Cost: " + (string)resourceNode["cost"] + "\n";
+                string transactionMessage = "sell 1 " + resourceName;
+                ExecuteEvents.Execute<IStateTransactionMessageTarget>(GameObject.Find("StateTransaction"), null, (x, y) => x.TransactionMessage( transactionMessage));
+            }
+            
         }
     }
 

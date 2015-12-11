@@ -4,3 +4,4 @@ Temp
 GemEngine.*
 *.csproj
 *.sln
+*.app
