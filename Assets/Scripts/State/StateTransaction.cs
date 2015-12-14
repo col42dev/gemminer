@@ -16,12 +16,34 @@ public class StateTransaction : MonoBehaviour, IStateTransactionMessageTarget
 {
     #region Private Members
     private List<string> mTransactions;
+	private string url = "http://ec2-54-201-237-107.us-west-2.compute.amazonaws.com:8080/unity";
+
     #endregion
 
     // Use this for initialization
     void Start () {
         mTransactions = new List<string>();
+
+		Debug.Log("Transmiting Start State");
+		
+		WWWForm form = new WWWForm();
+		form.AddField("event", "launch");
+
+		WWW www = new WWW(url, form);
+		StartCoroutine(WaitForRequest(www));
     }
+
+	void  OnApplicationQuit() {
+		Debug.Log("Transmiting Quit State");
+		
+		WWWForm form = new WWWForm();	
+		form.AddField("event", "kill");
+
+		WWW www = new WWW(url, form);
+		StartCoroutine(WaitForRequest(www));
+
+		System.Threading.Thread.Sleep(1000);
+	}
 
     public void TransactionMessage(string message)
     {
@@ -31,28 +53,20 @@ public class StateTransaction : MonoBehaviour, IStateTransactionMessageTarget
 
     public void RequestTransmitState()
     {
-        // 
         Debug.Log("Transmiting State");
 
-        //string url = "http://localhost:3000/transactions/";
-		string url = "http://localhost:8080/";
         WWWForm form = new WWWForm();
-
-        string messageBody = "";
+        string messageBody = "transactions:";
         foreach (string transactionMessage in mTransactions)
         {
-            messageBody += transactionMessage + '\n';
+            messageBody += transactionMessage + "<br/>";
         }
-        form.AddField("message", messageBody);
+		form.AddField("event", messageBody);
 
         mTransactions.Clear();
 
-        //Hashtable headers = new Hashtable();
-        //headers.Add("Content-Type", "application/text");
-        byte[] bytes = Encoding.ASCII.GetBytes(messageBody.ToCharArray());//new byte[messageBody.Length * sizeof(char)];
-
-        //System.Buffer.BlockCopy(messageBody.ToCharArray(), 0, bytes, 0, bytes.Length);
-        WWW www = new WWW(url, bytes);
+  
+		WWW www = new WWW(url, form);
         StartCoroutine(WaitForRequest(www));
     }
 
