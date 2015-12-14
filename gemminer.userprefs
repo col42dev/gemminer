@@ -1,9 +1,9 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/State/StateTransaction.cs">
     <Files>
       <File FileName="../gemrefractor/gemologist/Assets/MyHttpServer.cs" Line="86" Column="35" />
-      <File FileName="Assets/Scripts/State/StateTransaction.cs" Line="62" Column="56" />
+      <File FileName="Assets/Scripts/State/StateTransaction.cs" Line="59" Column="43" />
       <File FileName="Assets/Scripts/JSONLoader/RulesDataReference.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/State/SampleState.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/UI/StateUI.cs" Line="1" Column="1" />
